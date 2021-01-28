@@ -1,0 +1,24 @@
+class: bg-main1 split-30 hide-slide-number
+
+.column.bg-main3[
+]
+.column.slide-in-right[
+.sliderbox.bg-main2.vmiddle[
+.font3[Introdução]
+]]
+
+---
+
+class: middle center bg-main1 hide-slide-number
+
+# Reticulate
+
+--
+
+  ## Reticulate é uma ferramenta desenvolvida pela RStudio para facilitar a integração de scripts gerados tanto em R quanto em Python.
+  
+--
+
+  ## Ele é formado por um conjunto de ferramentas que permitem a execução de códigos Python dentro de scripts R, bem como a tradução entre objetos gerados em R e objetos gerados em Python, além de permitir a integração entre os ambientes do R com ambientes Python gerados via virtualenv, conda, e outros.
+  
+---
