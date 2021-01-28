@@ -57,7 +57,7 @@ class: middle center bg-main1 hide-slide-number
 
 --
   
-  ## Caso tenha sido criado um virtualenv no projeto, para manter a informação de dependencias dos pacotes e as versões instaladas nesse ambiente, é possível mapear para o reticulate usar o `venv` como padrão Python dentro do R.
+  ## Caso tenha sido criado um virtualenv no projeto, para manter a informação de dependências dos pacotes e as versões instaladas nesse ambiente, é possível mapear para o reticulate usar o `venv` como padrão Python dentro do R.
   
 ```{r echo=TRUE, eval=FALSE}
 reticulate::use_virtualenv()
@@ -81,9 +81,9 @@ class: middle center bg-main1 hide-slide-number
 reticulate::use_condaenv("py36")
 ```
   
---  
+--
   
-  ### Dica: Da mesma forma que o virtualenv, é possível listar os ambientes conda existentes na máquina através do comando `reticualte::conda_list()`.
+  ### Dica: Da mesma forma que o virtualenv, é possível listar os ambientes conda existentes na máquina através do comando `reticulate::conda_list()`.
   
 ---
 
@@ -111,7 +111,7 @@ class: middle center bg-main1 hide-slide-number
   ## A partir do RStudio 1.4, a versão do Python a ser utilizada também pode ser configurada a partir das Global Options do RStudio (Tools > Global Options > Python), facilitando a escolha do ambiente Python default a ser utilizado pelo Reticulate.
   
 <div align="center">
-  <img src="images/rstudio_python.png" height="75%" width="75%" />
+  <img src="images/rstudio_python.png" height="50%" width="50%" />
 </div>
   
 ---
