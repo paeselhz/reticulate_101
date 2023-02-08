@@ -1,0 +1,63 @@
+class: bg-main1 split-30 hide-slide-number
+
+.column.bg-main3[
+]
+.column.slide-in-right[
+.sliderbox.bg-main2.vmiddle[
+.font3[R/Py Environment]
+]]
+
+---
+
+class: middle center bg-main1 hide-slide-number
+
+# How does it work?
+
+--
+
+  ## One of the great advantages brought by {reticulate} to allow users to merge R and Python solutions goes beyond the integration of code, scripts and libraries, but it relies mostly on the joint access in both languages environments, making it possible to create objects in R, and use them in a Python script, and vice-versa.
+
+---
+
+class: middle center bg-main1 hide-slide-number
+
+# "Object translation"
+
+--
+
+  ## To convert objects types from one language to the other, there are two functions, `r_to_py` and `py-to_r`, that will make the conversion of the types assigned from one language to the other, as well as move the object from one environment to the "target".
+  
+--
+
+  ## As an example, if the user has a Pandas.DataFrame, and wishes to send it to the R environment, the command `py_to_r` will convert this from a Pandas.DataFrame to a data.frame.
+  
+--
+
+  ### For a complete list of all of the conversions between the languages, there's a page in {reticulate} documentation related to [type conversions](https://rstudio.github.io/reticulate/#type-conversions).
+  
+  
+---
+
+class: middle center bg-main1 hide-slide-number
+
+# Access segregated environments
+
+--
+
+  ## To access artifacts and objects created in segregated environments of R and Python, the user can also use the following syntax:
+  
+--
+
+```{r eval=FALSE, echo=TRUE}
+# To access Python objects, from R, use py$
+py${object_name}
+```
+
+--
+
+```{python eval=FALSE, echo=TRUE}
+# To access R objects, from Python, use r.
+r.{object_name}
+```
+  
+---

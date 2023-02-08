@@ -1,0 +1,30 @@
+class: bg-main1 split-30 hide-slide-number
+
+.column.bg-main3[
+]
+.column.slide-in-right[
+.sliderbox.bg-main2.vmiddle[
+.font3[Final Remarks]
+]]
+
+---
+
+class: middle left bg-main1 hide-slide-number
+
+# References
+
+##  [R Interface to Python](https://rstudio.github.io/reticulate/)
+
+##  [How to Use Python in R](https://anderfernandez.com/en/blog/how-to-use-python-in-r/)
+
+##  [Curso R - Pacote Reticulate *In Portuguese*](https://www.curso-r.com/blog/2017-11-20-reticulate/)
+
+---
+
+class: bg-main5 middle center hide-slide-number
+
+## [`r icons::fontawesome("envelope-open")`](mailto:lhzpaese@gmail.com) lhzpaese@gmail.com
+## [`r icons::fontawesome("github")`](https://github.com/paeselhz) https://github.com/paeselhz
+## [`r icons::fontawesome("linkedin")`](https://www.linkedin.com/in/lhzpaese/) https://www.linkedin.com/in/lhzpaese/
+
+---

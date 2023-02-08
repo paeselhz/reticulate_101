@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Reticulate 101</title>
+    <meta charset="utf-8" />
+    <meta name="author" content=" Luis Paese " />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/ninjutsu.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style/shinobi.css" type="text/css" />
+    <link rel="stylesheet" href="style/ninpo.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Reticulate 101
+]
+.subtitle[
+## Introduction to the use of {reticulate} to ease the integration of R and Python code
+]
+.author[
+### <br>Luis Paese<br>
+]
+.date[
+### <br>January 2021
+]
+
+---
+
+
+
+
+class: middle bg-main1 hide-slide-number
+
+.outline[
+## Outline
+
+* Introduction
+* Reticulate Setup
+* Importing/Installing packages
+  * `import package`
+  * `import code`
+  * Python console
+* R Environment/Py Environment
+* Final Remarks
+* Live Coding
+]
+
+---
+
+class: bg-main1 split-30 hide-slide-number
+
+.column.bg-main3[
+]
+.column.slide-in-right[
+.sliderbox.bg-main2.vmiddle[
+.font3[Introduction]
+]]
+
+---
+
+class: middle center bg-main1 hide-slide-number
+
+# Reticulate
+
+--
+
+  ## {reticulate} is a tool developed by RStudio to allow the integration between scripts created in both R and Python.
+  
+--
+
+  ## It is built up by a set of tools that allow the execution of Python code inside of R environments, as well as the transit betwenn objects created within R and objects created within Python. Apart from that, it allows the integration of R environments with Python-specific environments via `virtualenv`, conda, and others.
+  
+---
+
+
+class: bg-main1 split-30 hide-slide-number
+
+.column.bg-main3[
+]
+.column.slide-in-right[
+.sliderbox.bg-main2.vmiddle[
+.font3[Reticulate Setup]
+]]
+
+---
+
+class: middle center bg-main1 hide-slide-number
+
+# Package installation:
+
+--
+
+  ## As with any other R package that needs to be installed, the usual way is to run:
+  
+
+```r
+install.packages('reticulate')
+```
+
+--
+
+  ### Reminder: It is possible to use [RStudio Package Manager](https://packagemanager.rstudio.com/client/#/repos/1/overview) to make the installation process easier, specially in Unix-based systems.
+
+---
+
+class: middle center bg-main1 hide-slide-number
+
+# Configuring the environment:
+
+--
+
+  ## After the installation of the package, there are a couple of ways to configure which Python version is desired, or which the version of `virtualenv` or conda is desired.
+        
+---
+
+class: middle center bg-main1 hide-slide-number
+
+# Configuring the environment: Boilerplate Python
+
+--
+  
+  ## This can be used to direct which python distribution will be used to run the scripts. It can be useful when we do not have any environment manager like conda, but we also have different python distributions in the same machine.
+  
+
+```r
+reticulate::use_python("/usr/bin/python")
+```
+  
+---
+
+class: middle center bg-main1 hide-slide-number
+
+# Configuring the environment: Python Virtual Environments
+
+--
+  
+  ## If you have used `virtualenv` in the project, you can map {reticulate} to use the virtual environment as the standard Python distribution, keeping track of the different package versions, as well as the python version installed in this virtual environment.
+  
+
+```r
+reticulate::use_virtualenv()
+```
+  
+--
+  
+  ### Tip: If you wish to list which virtual environments are available to be used, you can run `reticulate::virtualenv_list()`.
+  
+---
+
+class: middle center bg-main1 hide-slide-number
+
+# Configuring the environment: Python Conda Environments
+
+--
+  
+  ## For users that use conda as an environment manager, you can also use conda environments to manage the packages and versions of python installed, just as can be done using `virtualenv`.
+  
+
+```r
+reticulate::use_condaenv("py36")
+```
+  
+--
+  
+  ### Tip: In the same way that virtualenv can list all the available environments, in conda it can be done by running  `reticulate::conda_list()`.
+  
+---
+
+class: middle center bg-main1 hide-slide-number
+
+# Configuring the environment: Miniconda
+
+--
+  
+  ## In case the developer does not have any Python version installed, or do not wish to mix the python environemtns with R, it is possible to install a `miniconda` distribution, that will be used by R, and the environment `r-miniconda` will be created for the Python package management.
+  
+
+```r
+reticulate::install_miniconda()
+reticulate::use_miniconda()
+```
+  
+---
+
+class: middle center bg-main1 hide-slide-number
+
+# Configuring the environment: RStudio 1.4
+
+--
+  
+  ## From RStudio 1.4 and moving forward, the Python version to be used by {reticulate} can also be set up from the RStudio Global Options (Tools &gt; Global Options &gt; Python), making it easy to choose which Python distribution and environment will be used.
+  
+&lt;div align="center"&gt;
+  &lt;img src="images/rstudio_python.png" height="50%" width="50%" /&gt;
+&lt;/div&gt;
+  
+---
+
+
+class: bg-main1 split-30 hide-slide-number
+
+.column.bg-main3[
+]
+.column.slide-in-right[
+.sliderbox.bg-main2.vmiddle[
+.font3[`import package`]
+]]
+
+---
+
+class: middle center bg-main1 hide-slide-number
+
+# Importing packages as R variables
+
+--
+  ## One of the ways to import Python packages to be used in an R Script, is to import them as R environment variables, given that {reticulate} is already configured:
+  
+--
+
+
+```r
+np &lt;- reticulate::import("numpy")
+np$array() # equivalente ao np.array
+```
+  
+---
+
+class: middle center bg-main1 hide-slide-number
+
+# Checking the package availability from R
+
+--
+  ## Even though it is easy to import packages, sometimes we do not have any ways to check if a specific package is installed in the enviroment that was set up for {reticulate}... So, in order to ensure that this package is installed and available to be imported, or to trigger an installation of a specific package from R scripts, these commands can be used:
+  
+--
+
+
+```r
+reticulate::py_module_available('fastAPI')
+reticulate::py_install("fastAPI")
+```
+  
+---
+
+class: middle center bg-main1 hide-slide-number
+
+# Importing functions/scripts in Python
+
+--
+  ## To avoid repeating code that was already developed in Python, it is possible to `source` them to be used in R:
+  
+--
+
+
+```r
+reticulate::source_python("functions/teste.py")
+```
+  
+---
+
+class: middle center bg-main1 hide-slide-number
+
+# Python console inside RStudio
+
+--
+  ## There are plenty of ways to use R alongside Python in a more direct way, nonetheless, sometimes it is necessary to open a Python console inside RStudio, and the way to do it is by running the command below:
+  
+--
+
+
+```r
+reticulate::repl_python()
+```
+  
+---
+
+
+class: bg-main1 split-30 hide-slide-number
+
+.column.bg-main3[
+]
+.column.slide-in-right[
+.sliderbox.bg-main2.vmiddle[
+.font3[R/Py Environment]
+]]
+
+---
+
+class: middle center bg-main1 hide-slide-number
+
+# How does it work?
+
+--
+
+  ## One of the great advantages brought by {reticulate} to allow users to merge R and Python solutions goes beyond the integration of code, scripts and libraries, but it relies mostly on the joint access in both languages environments, making it possible to create objects in R, and use them in a Python script, and vice-versa.
+
+---
+
+class: middle center bg-main1 hide-slide-number
+
+# "Object translation"
+
+--
+
+  ## To convert objects types from one language to the other, there are two functions, `r_to_py` and `py-to_r`, that will make the conversion of the types assigned from one language to the other, as well as move the object from one environment to the "target".
+  
+--
+
+  ## As an example, if the user has a Pandas.DataFrame, and wishes to send it to the R environment, the command `py_to_r` will convert this from a Pandas.DataFrame to a data.frame.
+  
+--
+
+  ### For a complete list of all of the conversions between the languages, there's a page in {reticulate} documentation related to [type conversions](https://rstudio.github.io/reticulate/#type-conversions).
+  
+  
+---
+
+class: middle center bg-main1 hide-slide-number
+
+# Access segregated environments
+
+--
+
+  ## To access artifacts and objects created in segregated environments of R and Python, the user can also use the following syntax:
+  
+--
+
+
+```r
+# To access Python objects, from R, use py$
+py${object_name}
+```
+
+--
+
+
+```python
+# To access R objects, from Python, use r.
+r.{object_name}
+```
+  
+---
+
+
+class: bg-main1 split-30 hide-slide-number
+
+.column.bg-main3[
+]
+.column.slide-in-right[
+.sliderbox.bg-main2.vmiddle[
+.font3[Final Remarks]
+]]
+
+---
+
+class: middle left bg-main1 hide-slide-number
+
+# References
+
+##  [R Interface to Python](https://rstudio.github.io/reticulate/)
+
+##  [How to Use Python in R](https://anderfernandez.com/en/blog/how-to-use-python-in-r/)
+
+##  [Curso R - Pacote Reticulate *In Portuguese*](https://www.curso-r.com/blog/2017-11-20-reticulate/)
+
+---
+
+class: bg-main5 middle center hide-slide-number
+
+## [&lt;svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M494.586 164.516c-4.697-3.883-111.723-89.95-135.251-108.657C337.231 38.191 299.437 0 256 0c-43.205 0-80.636 37.717-103.335 55.859-24.463 19.45-131.07 105.195-135.15 108.549A48.004 48.004 0 0 0 0 201.485V464c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V201.509a48 48 0 0 0-17.414-36.993zM464 458a6 6 0 0 1-6 6H54a6 6 0 0 1-6-6V204.347c0-1.813.816-3.526 2.226-4.665 15.87-12.814 108.793-87.554 132.364-106.293C200.755 78.88 232.398 48 256 48c23.693 0 55.857 31.369 73.41 45.389 23.573 18.741 116.503 93.493 132.366 106.316a5.99 5.99 0 0 1 2.224 4.663V458zm-31.991-187.704c4.249 5.159 3.465 12.795-1.745 16.981-28.975 23.283-59.274 47.597-70.929 56.863C336.636 362.283 299.205 400 256 400c-43.452 0-81.287-38.237-103.335-55.86-11.279-8.967-41.744-33.413-70.927-56.865-5.21-4.187-5.993-11.822-1.745-16.981l15.258-18.528c4.178-5.073 11.657-5.843 16.779-1.726 28.618 23.001 58.566 47.035 70.56 56.571C200.143 320.631 232.307 352 256 352c23.602 0 55.246-30.88 73.41-45.389 11.994-9.535 41.944-33.57 70.563-56.568 5.122-4.116 12.601-3.346 16.778 1.727l15.258 18.526z"&gt;&lt;/path&gt;&lt;/svg&gt;](mailto:lhzpaese@gmail.com) lhzpaese@gmail.com
+## [&lt;svg viewBox="0 0 496 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"&gt;&lt;/path&gt;&lt;/svg&gt;](https://github.com/paeselhz) https://github.com/paeselhz
+## [&lt;svg viewBox="0 0 448 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"&gt;&lt;/path&gt;&lt;/svg&gt;](https://www.linkedin.com/in/lhzpaese/) https://www.linkedin.com/in/lhzpaese/
+
+---
+
+
+class: bg-main1 split-30 hide-slide-number
+
+.column.bg-main3[
+]
+.column.slide-in-right[
+.sliderbox.bg-main2.vmiddle[
+.font3[Live Demo]
+]]
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "monokai-sublime",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"seal": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

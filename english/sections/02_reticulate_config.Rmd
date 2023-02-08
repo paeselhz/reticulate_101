@@ -1,0 +1,117 @@
+class: bg-main1 split-30 hide-slide-number
+
+.column.bg-main3[
+]
+.column.slide-in-right[
+.sliderbox.bg-main2.vmiddle[
+.font3[Reticulate Setup]
+]]
+
+---
+
+class: middle center bg-main1 hide-slide-number
+
+# Package installation:
+
+--
+
+  ## As with any other R package that needs to be installed, the usual way is to run:
+  
+```{r echo=TRUE, eval=FALSE}
+install.packages('reticulate')
+```
+
+--
+
+  ### Reminder: It is possible to use [RStudio Package Manager](https://packagemanager.rstudio.com/client/#/repos/1/overview) to make the installation process easier, specially in Unix-based systems.
+
+---
+
+class: middle center bg-main1 hide-slide-number
+
+# Configuring the environment:
+
+--
+
+  ## After the installation of the package, there are a couple of ways to configure which Python version is desired, or which the version of `virtualenv` or conda is desired.
+        
+---
+
+class: middle center bg-main1 hide-slide-number
+
+# Configuring the environment: Boilerplate Python
+
+--
+  
+  ## This can be used to direct which python distribution will be used to run the scripts. It can be useful when we do not have any environment manager like conda, but we also have different python distributions in the same machine.
+  
+```{r echo=TRUE, eval=FALSE}
+reticulate::use_python("/usr/bin/python")
+```
+  
+---
+
+class: middle center bg-main1 hide-slide-number
+
+# Configuring the environment: Python Virtual Environments
+
+--
+  
+  ## If you have used `virtualenv` in the project, you can map {reticulate} to use the virtual environment as the standard Python distribution, keeping track of the different package versions, as well as the python version installed in this virtual environment.
+  
+```{r echo=TRUE, eval=FALSE}
+reticulate::use_virtualenv()
+```
+  
+--
+  
+  ### Tip: If you wish to list which virtual environments are available to be used, you can run `reticulate::virtualenv_list()`.
+  
+---
+
+class: middle center bg-main1 hide-slide-number
+
+# Configuring the environment: Python Conda Environments
+
+--
+  
+  ## For users that use conda as an environment manager, you can also use conda environments to manage the packages and versions of python installed, just as can be done using `virtualenv`.
+  
+```{r echo=TRUE, eval=FALSE}
+reticulate::use_condaenv("py36")
+```
+  
+--
+  
+  ### Tip: In the same way that virtualenv can list all the available environments, in conda it can be done by running  `reticulate::conda_list()`.
+  
+---
+
+class: middle center bg-main1 hide-slide-number
+
+# Configuring the environment: Miniconda
+
+--
+  
+  ## In case the developer does not have any Python version installed, or do not wish to mix the python environemtns with R, it is possible to install a `miniconda` distribution, that will be used by R, and the environment `r-miniconda` will be created for the Python package management.
+  
+```{r echo=TRUE, eval=FALSE}
+reticulate::install_miniconda()
+reticulate::use_miniconda()
+```
+  
+---
+
+class: middle center bg-main1 hide-slide-number
+
+# Configuring the environment: RStudio 1.4
+
+--
+  
+  ## From RStudio 1.4 and moving forward, the Python version to be used by {reticulate} can also be set up from the RStudio Global Options (Tools > Global Options > Python), making it easy to choose which Python distribution and environment will be used.
+  
+<div align="center">
+  <img src="images/rstudio_python.png" height="50%" width="50%" />
+</div>
+  
+---

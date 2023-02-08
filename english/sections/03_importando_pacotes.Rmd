@@ -1,0 +1,72 @@
+class: bg-main1 split-30 hide-slide-number
+
+.column.bg-main3[
+]
+.column.slide-in-right[
+.sliderbox.bg-main2.vmiddle[
+.font3[`import package`]
+]]
+
+---
+
+class: middle center bg-main1 hide-slide-number
+
+# Importing packages as R variables
+
+--
+  ## One of the ways to import Python packages to be used in an R Script, is to import them as R environment variables, given that {reticulate} is already configured:
+  
+--
+
+```{r eval=FALSE, echo=TRUE}
+np <- reticulate::import("numpy")
+np$array() # equivalente ao np.array
+```
+  
+---
+
+class: middle center bg-main1 hide-slide-number
+
+# Checking the package availability from R
+
+--
+  ## Even though it is easy to import packages, sometimes we do not have any ways to check if a specific package is installed in the enviroment that was set up for {reticulate}... So, in order to ensure that this package is installed and available to be imported, or to trigger an installation of a specific package from R scripts, these commands can be used:
+  
+--
+
+```{r eval=FALSE, echo=TRUE}
+reticulate::py_module_available('fastAPI')
+reticulate::py_install("fastAPI")
+```
+  
+---
+
+class: middle center bg-main1 hide-slide-number
+
+# Importing functions/scripts in Python
+
+--
+  ## To avoid repeating code that was already developed in Python, it is possible to `source` them to be used in R:
+  
+--
+
+```{r eval=FALSE, echo=TRUE}
+reticulate::source_python("functions/teste.py")
+```
+  
+---
+
+class: middle center bg-main1 hide-slide-number
+
+# Python console inside RStudio
+
+--
+  ## There are plenty of ways to use R alongside Python in a more direct way, nonetheless, sometimes it is necessary to open a Python console inside RStudio, and the way to do it is by running the command below:
+  
+--
+
+```{r eval=FALSE, echo=TRUE}
+reticulate::repl_python()
+```
+  
+---

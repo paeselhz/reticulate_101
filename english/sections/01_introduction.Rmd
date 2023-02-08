@@ -1,0 +1,24 @@
+class: bg-main1 split-30 hide-slide-number
+
+.column.bg-main3[
+]
+.column.slide-in-right[
+.sliderbox.bg-main2.vmiddle[
+.font3[Introduction]
+]]
+
+---
+
+class: middle center bg-main1 hide-slide-number
+
+# Reticulate
+
+--
+
+  ## {reticulate} is a tool developed by RStudio to allow the integration between scripts created in both R and Python.
+  
+--
+
+  ## It is built up by a set of tools that allow the execution of Python code inside of R environments, as well as the transit between objects created within R and objects created within Python. Apart from that, it allows the integration of R environments with Python-specific environments via `virtualenv`, conda, and others.
+  
+---
